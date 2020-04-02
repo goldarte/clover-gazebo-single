@@ -1,0 +1,30 @@
+<launch>
+    <arg name="fcu_conn" default="udp"/>
+    <arg name="fcu_ip" default="127.0.0.1"/>
+    <arg name="gcs_bridge" default="udp"/>
+
+    <!-- log formatting -->
+    <env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}]: ${logger}: ${message}"/>
+
+    <!-- mavros -->
+    <include file="$(find clover)/launch/mavros.launch">
+        <arg name="fcu_conn" value="$(arg fcu_conn)"/>
+        <arg name="fcu_ip" value="$(arg fcu_ip)"/>
+        <arg name="gcs_bridge" value="$(arg gcs_bridge)"/>
+    </include>
+
+    <!-- main nodelet manager -->
+    <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager" output="screen" clear_params="true">
+        <param name="num_worker_threads" value="2"/>
+    </node>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="map_flipped_frame" args="0 0 0 3.1415926 3.1415926 0 map map_flipped"/>
+
+    <!-- simplified offboard control -->
+    <node name="simple_offboard" pkg="clover" type="simple_offboard" output="screen" clear_params="true">
+        <param name="reference_frames/body" value="map"/>
+        <param name="reference_frames/base_link" value="map"/>
+        <param name="reference_frames/navigate_target" value="map"/>
+    </node>
+
+</launch>
