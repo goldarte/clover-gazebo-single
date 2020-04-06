@@ -19,9 +19,11 @@ make posix_sitl_default gazebo
 4. Для того, чтобы файлы симулятора стали видны для ROS, нужно добавить в конец ~/.bashrc:
 
 ```cmd
-source <coex px4 firmware fork>/Tools/setup\_gazebo.bash <coex px4 firmware fork> <coex px4 firmware fork>/build/posix\_sitl\_default
-export ROS\_PACKAGE\_PATH=$ROS\_PACKAGE\_PATH:<coex px4 firmware fork>
-export ROS\_PACKAGE\_PATH=$ROS\_PACKAGE\_PATH:<coex px4 firmware fork>/Tools/sitl\_gazebo
+export GAZEBO_PLUGIN_PATH=$GAZEBO_PLUGIN_PATH:<coex px4 firmware fork>/build/posix_sitl_default/build_gazebo
+export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:<coex px4 firmware fork>/Tools/sitl_gazebo/models
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<coex px4 firmware fork>/build/posix_sitl_default/build_gazebo
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:<coex px4 firmware fork>
+export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:<coex px4 firmware fork>/Tools/sitl_gazebo
 ```
 
 5. Настройки для коптера при запусе SITL находятся [здесь](https://github.com/CopterExpress/Firmware/tree/v1.8.2-clever/posix-configs/SITL/init)
